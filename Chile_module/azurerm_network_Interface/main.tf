@@ -11,7 +11,7 @@ resource "azurerm_network_interface" "nic" {
       subnet_id                     = data.azurerm_subnet.subnet[each.key].id     
       private_ip_address_allocation = ip_configuration.value.pip_alloc
       # Attach a public IP if a matching entry is provided via var.public_ips
-      public_ip_address_id = try(var.public_ips[var.nic[each.key].pip_name].id, null)
+      public_ip_address_id = data.azurerm_public_ip.pips [each.key].id
     }
   }
 }
@@ -19,4 +19,4 @@ resource "azurerm_network_interface" "nic" {
 
 
 
- 
+# try(var.public_ips[var.nic[each.key].pip_name].id, null)

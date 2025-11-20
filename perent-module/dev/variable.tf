@@ -41,17 +41,17 @@ variable "nic" {
     location            = string
     resource_group_name = string
     subnet_name         = string
-    pip_name            = string
     vnet_name           = string
-    ip_configuration = map(object({
+    pipd_name           = string
+    ip_configuration = list(object({
       ip_config_name = string
       pip_alloc      = string
     }))
-
-
   }))
 
 }
+
+
 
 
 
@@ -67,8 +67,8 @@ variable "vms" {
     pip_name                        = string
     virtual_machine_name            = string
     size                            = string
-    admin_username                  = optional(string)
-    admin_password                  = optional(string)
+    # admin_username                  = optional(string)
+    # admin_password                  = optional(string)
     disable_password_authentication = optional(bool)
 
 
@@ -89,3 +89,38 @@ variable "kv" {
     sku_name                    = string
   }))
 }
+
+variable "nsg" {
+  type = map(object({
+    name                = string
+    location            = string
+    resource_group_name = string
+
+    security_rules = optional(list(object({
+      name                       = string
+      priority                   = number
+      direction                  = string
+      access                     = string
+      protocol                   = string
+      source_port_range          = string
+      destination_port_range     = string
+      destination_address_prefix = string
+      source_address_prefix      = string
+
+
+    })))
+    tags = optional(map(string))
+  }))
+}
+
+
+variable "kvs" {
+  type = map(object({
+    kvs-name            = string
+    value               = optional(string)
+    kvd_name            = string
+    resource_group_name = string
+    }
+  ))
+}
+

@@ -26,7 +26,7 @@ vnet = {
         address_prefixes = ["10.0.2.0/24"]
 
       }
-bastion_subnet = {
+      bastion_subnet = {
         subnet_name      = "bastion-subnet"
         address_prefixes = ["10.0.3.0/24"]
 
@@ -41,18 +41,15 @@ public_ips = {
     resource_group_name = "rg-kaira"
     location            = "centralindia"
     allocation_method   = "Static"
-
     tags = {
       environment = "Production"
     }
-
   }
   pip2 = {
     pip_name            = "backend_pip2"
     resource_group_name = "rg-kaira"
     location            = "centralindia"
     allocation_method   = "Static"
-
     tags = {
       environment = "Production"
     }
@@ -68,36 +65,34 @@ nic = {
     subnet_name         = "frontend-subnet"
     pip_name            = "frontend-pip1"
     vnet_name           = "frontend-vnet"
-    ip_configuration = {
-      config1 = {
-        ip_config_name = "frontend-ipconfig"
-        pip_alloc      = "Dynamic"
-      }
-    }
-  }
+    pipd_name           = "frontend-pip1"
+    ip_configuration = [{
+      ip_config_name = "frontend-ipconfig"
+      pip_alloc      = "Dynamic"
 
+      }
+    ]
+  }
 
   nic2 = {
     nic_name            = "nic-backend-02"
     location            = "centralindia"
     resource_group_name = "rg-kaira"
     subnet_name         = "backend-subnet"
-    pip_name            = "frontend-pip1"
+    pip_name            = "backend-pip2"
     vnet_name           = "frontend-vnet"
-    ip_configuration = {
-      config1 = {
-        ip_config_name = "frontend-ipconfig"
-        pip_alloc      = "Dynamic"
+    pipd_name           = "backend_pip2"
+    ip_configuration = [{
+      ip_config_name = "backend-ipconfig"
+      pip_alloc      = "Dynamic"
+
+
       }
-    }
+    ]
+
   }
 
-
-
 }
-
-
-
 
 vms = {
   vm1 = {
@@ -109,31 +104,31 @@ vms = {
     pip_name                        = "frontend-pip1"
     virtual_machine_name            = "frontend-vm"
     size                            = "Standard_F2"
-    admin_username                  = "adminuser"
-    admin_password                  = "user@123"
+    # admin_username                  = "adminuser"
+    # admin_password                  = "User@@1990#"
     disable_password_authentication = false
 
   }
-    vm2 = {
-      nic_name                        = "nic-backend-02"
-      location                        = "centralindia"
-      resource_group_name             = "rg-kaira"
-      vnet_name                       = "frontend-vnet"
-      subnet_name                     = "backend-subnet"
-      pip_name                        = "frontend-pip1"
-      virtual_machine_name            = "backend-vm"
-      size                            = "Standard_F2"
-      admin_username                  = "adminuser"
-      admin_password                  = "user@123"
-      disable_password_authentication = false
+  vm2 = {
+    nic_name                        = "nic-backend-02"
+    location                        = "centralindia"
+    resource_group_name             = "rg-kaira"
+    vnet_name                       = "frontend-vnet"
+    subnet_name                     = "backend-subnet"
+    pip_name                        = "frontend-pip1"
+    virtual_machine_name            = "backend-vm"
+    size                            = "Standard_F2"
+    # admin_username                  = "adminuser"
+    # admin_password                  = "User@@1990#"
+    disable_password_authentication = false
 
-    }
   }
+}
 
 
 kv = {
   kv1 = {
-    
+
     name                        = "dev-kv2025-kva"
     location                    = "centralindia"
     resource_group_name         = "rg-kaira"
@@ -146,3 +141,44 @@ kv = {
   }
 
 }
+
+nsg = {
+  nsg1 = {
+    name                = "dev-nsg"
+    location            = "centralindia"
+    resource_group_name = "rg-kaira"
+
+
+    security_rules = [{
+      name                       = "my_securit"
+      priority                   = 100
+      direction                  = "Inbound"
+      access                     = "Allow"
+      protocol                   = "Tcp"
+      source_port_range          = "*"
+      destination_port_range     = "*"
+      destination_address_prefix = "*"
+      source_address_prefix      = "*"
+    }]
+  }
+  tags = {
+    name                = "dev-nsg"
+    location            = "centralindia"
+    resource_group_name = "rg-kaira"
+    owner               = "anuj"
+    environment         = "dev"
+  }
+
+}
+
+
+kvs = {
+  kvs1 = {
+    kvs-name            = "keyvaultsecret"
+    value               = "dev"
+    kvd_name            = "dev-kv2025-kva"
+    resource_group_name = "rg-kaira"
+
+  }
+}
+

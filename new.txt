@@ -1,0 +1,1 @@
+# az group create --name rg-pod1 --location "Central India"; az storage account create --name stgdev2025 --resource-group rg-pod1 --location "Central India" --sku Standard_LRS; az storage container create --name prodterraform --account-name stgdev2025 --auth-mode login

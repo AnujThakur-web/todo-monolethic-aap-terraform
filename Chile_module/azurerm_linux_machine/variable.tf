@@ -9,8 +9,8 @@ variable "vms" {
     pip_name             = string
     virtual_machine_name = string
     size                 = string
-    # admin_username       = optional(string)
-    # admin_password       = optional(string)
+    admin_username       = optional(string)
+    admin_password       = optional(string)
     disable_password_authentication = optional(bool)
     }))
   }

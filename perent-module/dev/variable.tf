@@ -8,7 +8,6 @@ variable "resource_groups" {
   }))
 }
 
-
 variable "vnet" {
 
   type = map(object({
@@ -23,7 +22,6 @@ variable "vnet" {
     })))
   }))
 }
-
 
 variable "public_ips" {
   type = map(object({
@@ -51,11 +49,6 @@ variable "nic" {
 
 }
 
-
-
-
-
-
 variable "vms" {
   description = "Map of virtual machines and their configurations"
   type = map(object({
@@ -67,12 +60,9 @@ variable "vms" {
     pip_name                        = string
     virtual_machine_name            = string
     size                            = string
-    # admin_username                  = optional(string)
-    # admin_password                  = optional(string)
+    admin_username                  = optional(string)
+    admin_password                  = optional(string)
     disable_password_authentication = optional(bool)
-
-
-
 
   }))
 }
@@ -106,13 +96,10 @@ variable "nsg" {
       destination_port_range     = string
       destination_address_prefix = string
       source_address_prefix      = string
-
-
     })))
     tags = optional(map(string))
   }))
 }
-
 
 variable "kvs" {
   type = map(object({
@@ -123,4 +110,36 @@ variable "kvs" {
     }
   ))
 }
+
+variable "sql_server" {
+  type = map(object({
+    sql_svr_name                 = string
+    resource_group_name          = string
+    location                     = string
+    version                      = string
+    administrator_login          = optional(string)
+    administrator_login_password = optional(string)
+    minimum_tls_version          = optional(string)
+
+  }))
+}
+
+variable "sql_dbs" {
+  type = map(object({
+    sql_svr_name        = string
+    sql_db_name         = string
+    resource_group_name = string
+    collation           = optional(string)
+    license_type        = optional(string)
+    max_size_gb         = optional(string)
+    sku_name            = optional(string)
+    enclave_type        = optional(string)
+    tags                = optional(map(string))
+
+  }))
+
+}
+
+
+
 

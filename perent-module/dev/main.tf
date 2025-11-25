@@ -54,3 +54,17 @@ module "kv_secrets1" {
 
   
 }
+
+module "sql-server" {
+  depends_on = [ module.resource_group ]
+  source = "../../Chile_module/azurerm_sql_server"
+  sql_server = var.sql_server
+  
+}
+
+module "sql-databse" {
+  depends_on = [ module.resource_group , module.sql-server ]
+  source = "../../Chile_module/azurerm_sql_database"
+  sql_dbs = var.sql_dbs
+  
+}

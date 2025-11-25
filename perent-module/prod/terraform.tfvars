@@ -104,8 +104,8 @@ vms = {
     pip_name                        = "frontend-pip1"
     virtual_machine_name            = "frontend-vm"
     size                            = "Standard_F2"
-    # admin_username                  = "adminuser"
-    # admin_password                  = "User@@1990#"
+    admin_username                  = "adminuser"
+    admin_password                  = "P@ssword@123"
     disable_password_authentication = false
 
   }
@@ -118,13 +118,12 @@ vms = {
     pip_name                        = "frontend-pip1"
     virtual_machine_name            = "backend-vm"
     size                            = "Standard_F2"
-    # admin_username                  = "adminuser"
-    # admin_password                  = "User@@1990#"
+    admin_username                  = "adminuser"
+    admin_password                  = "P@ssword@123"
     disable_password_authentication = false
 
   }
 }
-
 
 kv = {
   kv1 = {
@@ -171,7 +170,6 @@ nsg = {
 
 }
 
-
 kvs = {
   kvs1 = {
     kvs-name            = "keyvaultsecret"
@@ -181,4 +179,41 @@ kvs = {
 
   }
 }
+
+
+sql_server = {
+  sqlserver = {
+    sql_svr_name                 = "sqlserver-devkaira2025"
+    resource_group_name          = "rg-kaira"
+    location                     = "centralindia"
+    version                      = "12.0"
+    administrator_login          = "useradmin"
+    administrator_login_password = "P@ssword@123"
+    minimum_tls_version          = "1.2"
+
+  }
+}
+
+sql_dbs = {
+  sql-database = {
+    sql_svr_name = "sqlserver-devkaira2025"
+    sql_db_name  = "sqldatabse-devkaira-2025"
+    resource_group_name = "rg-kaira"
+    collation    = "SQL_Latin1_General_CP1_CI_AS"
+    license_type = "LicenseIncluded"
+    max_size_gb  = "2"
+    sku_name     = "S0"
+    enclave_type = "VBS"
+    env          = "dev"
+    tags = {
+      environment = "dev"
+      owner       = "anuj"
+    }
+  }
+}
+
+
+
+
+
 

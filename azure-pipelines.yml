@@ -1,0 +1,83 @@
+trigger: none
+pool : Pipline-recap-pool
+
+jobs:
+- job: TerraforminstallInitvalidateplanjob
+  displayName: Terraform install
+  steps:
+  - task: TerraformInstaller@1
+    inputs:
+      terraformVersion: 'latest'
+
+  - task: TerraformTask@5
+    displayName: Terraform init
+    inputs:
+      provider: 'azurerm'
+      command: 'init'
+      workingDirectory: '$(System.DefaultWorkingDirectory)/perent-module/dev'
+      backendServiceArm: 'todoapp-deploy-sc-prod'
+      backendAzureRmStorageAccountName: 'stgdev2025'
+      backendAzureRmContainerName: 'prodterraform'
+      backendAzureRmKey: 'prod.terraform.tfstate'
+
+  - task: TerraformTask@5
+    displayName: Terraform validate
+    inputs:
+      provider: 'azurerm'
+      command: 'validate'
+      workingDirectory: '$(System.DefaultWorkingDirectory)/perent-module/dev'
+
+  - task: TerraformTask@5
+    displayName: Terraform plan
+    inputs:
+      provider: 'azurerm'
+      command: 'plan'
+      workingDirectory: '$(System.DefaultWorkingDirectory)/perent-module/dev'
+      environmentServiceNameAzureRM: 'todoapp-deploy-sc-prod'
+
+
+- job: Manualvalidationjob
+  displayName: Manual Validation
+  dependsOn: TerraforminstallInitvalidateplanjob
+  pool: server
+  steps:
+  - task: ManualValidation@1
+    inputs:
+      notifyUsers: 'kumaranujkk@gmail.com'
+
+- job: Terrafotmapplyjob
+  displayName: Terraform Apply
+  dependsOn: Manualvalidationjob
+  pool: Pipline-recap-pool
+  steps:
+  - task: TerraformTask@5
+    displayName: Terraform init
+    inputs:
+      provider: 'azurerm'
+      command: 'init'
+      workingDirectory: '$(System.DefaultWorkingDirectory)/perent-module/dev'
+      backendServiceArm: 'todoapp-deploy-sc-prod'
+      backendAzureRmStorageAccountName: 'stgdev2025'
+      backendAzureRmContainerName: 'prodterraform'
+      backendAzureRmKey: 'prod.terraform.tfstate'
+
+
+  - task: TerraformTask@5
+    displayName: terraform apply
+    inputs:
+      provider: 'azurerm'
+      command: 'apply'
+      workingDirectory: '$(System.DefaultWorkingDirectory)/perent-module/dev'
+      environmentServiceNameAzureRM: 'todoapp-deploy-sc-prod'
+  
+
+
+
+
+
+  
+  
+
+  
+
+  
